@@ -4,10 +4,11 @@ var express = require('express');
 var session = require('express-session');
 var bodyParser = require('body-parser');
 var request = require('request');
-var YantasySports = require('yahoo-fantasy-without-auth');
+var CronJob = require('cron').CronJob;
+var YantasySports = require('../yfsapi-without-auth/index.js');
 
-var clientId = 'YOUR_CLIENT_ID_HERE';
-var clientSecret = 'YOUR_CLIENT_SECRET_HERE';
+var clientId = 'CLIENT_ID';
+var clientSecret = 'CLIENT_SECRET';
 var redirectUri = 'http://myapp.com/auth/yahoo/callback';
 
 var yf = new YantasySports();
@@ -25,7 +26,54 @@ app.use(session({
 }));
 app.use(express.static(path.join(__dirname, 'public')));
 
+
+
+
+
+
+
+
 app.get('/', function(req, res) {
+  
+
+  var accessToken = 'TOKEN';
+  yf.setUserToken(accessToken);
+  /*
+  yf.transactions.adddrop_players(
+      'mlb.l.154',       // leagueKey
+      'mlb.l.154.t.7',   // teamKey
+      'mlb.p.9098',        // addPlayerKey
+      'mlb.p.9191',        // dropPlayerKey
+        function(err, data) {
+          if (err) {
+            console.log(err);
+            console.log('[err]' + JSON.stringify(data));
+          }
+          else
+            req.session.result = data;
+          console.log('[data]' + JSON.stringify(data));
+        }
+      );
+      */
+
+new CronJob('59 59 15 * * *', function() {
+     yf.transactions.adddrop_players(
+      'mlb.l.154',       // leagueKey
+      'mlb.l.154.t.7',   // teamKey
+      'mlb.p.9098',        // addPlayerKey
+      'mlb.p.9191',        // dropPlayerKey
+        function(err, data) {
+          if (err) {
+            console.log(err);
+            console.log('[err]' + JSON.stringify(data));
+          }
+          else
+            req.session.result = data;
+          console.log('[data]' + JSON.stringify(data));
+        }
+      );
+}, null, true, 'Asia/Seoul');
+
   var data;
   if (req.session.result)
     data = JSON.stringify(req.session.result, null, 2);
@@ -78,6 +126,7 @@ app.get('/auth/yahoo/callback', function(req, res) {
       req.session.token = accessToken;
 
       yf.setUserToken(accessToken);
+      
       yf.user.games(
         function(err, data) {
           if (err)
