@@ -1,4 +1,4 @@
-## NodeJS sample app for [Yahoo OAuth 2.0](https://developer.yahoo.com/oauth2/guide) + [yfsapi-without-auth](https://github.com/githubsmilo/yfsapi-without-auth)
+## NodeJS sample app for [Yahoo OAuth 2.0](https://developer.yahoo.com/oauth2/guide) + [yfsapi-without-auth](https://github.com/withsmilo/yfsapi-without-auth)
 
 This is a NodeJS sample application which uses Yahoo OAuth 2.0 and yfsapi-without-auth, to access [Yahoo Fantasy Sports API](https://developer.yahoo.com/fantasysports/guide) easily. I've created a customized version of [sahat/yahoo-oauth2-tutorial](https://github.com/sahat/yahoo-oauth2-tutorial/). To keep it simple, I tested yfsapi's [user.games API](http://yfantasysandbox.herokuapp.com/resource/user/games) only. You can experience it on [my sandbox site](https://yfsapi-oauth2-test-sandbox.herokuapp.com). If you would like to test it locally, please follow next steps.
 
